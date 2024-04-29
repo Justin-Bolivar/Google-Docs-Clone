@@ -1,16 +1,11 @@
-# google_docs_clone_flutter
+# Commands needed
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+keytool -list -v -keystore C:/Users/Justin/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android                  
+flutter run -d edge --web-hostname localhost --web-port 3000    
+npm init -y        
+npm i express http socket.io@2.3.0 jsonwebtoken mongoose
+npm start
+npm i nodemon --save-dev
+npm run dev
+npm i mongodb
+npm i cors
