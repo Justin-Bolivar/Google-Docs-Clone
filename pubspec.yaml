@@ -35,7 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   google_sign_in:
-  flutter_riverpod:
+  flutter_riverpod: ^2.5.1
   http:
   shared_preferences:
   routemaster:
