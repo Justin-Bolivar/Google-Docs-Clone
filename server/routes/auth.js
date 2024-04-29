@@ -13,11 +13,10 @@ authRouter.post("/api/signup", async (req, res) => {
         if(!user) {
             user = new User({name, email, profilePic,});
             await user.save();
-            res.status(201).send("User created");
         }
         res.json({user});
     } catch (e) {
-        
+        res.status(500).json({error: e.message});
     }
 })
 
