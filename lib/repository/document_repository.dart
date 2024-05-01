@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:google_docs_clone_flutter/constants.dart';
-import 'package:google_docs_clone_flutter/models/document_model.dart';
+import 'package:google_docs_clone_flutter/models/doc_model.dart';
 import 'package:google_docs_clone_flutter/models/error_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
