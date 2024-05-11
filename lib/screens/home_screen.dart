@@ -1,7 +1,6 @@
 import 'package:google_docs_clone_flutter/colors.dart';
 import 'package:google_docs_clone_flutter/widgets/loader.dart';
 import 'package:google_docs_clone_flutter/models/doc_model.dart';
-import 'package:google_docs_clone_flutter/models/error_model.dart';
 import 'package:google_docs_clone_flutter/repository/auth_repository.dart';
 import 'package:google_docs_clone_flutter/repository/document_repository.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
 
 class HomeScreen extends ConsumerWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   void signOut(WidgetRef ref) {
     ref.read(authRepositoryProvider).signOut();
@@ -69,13 +68,15 @@ class HomeScreen extends ConsumerWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loader();
           }
-
+          int itemCount = snapshot.data?.data?.length?? 0;
           return Center(
             child: Container(
               width: 600,
               margin: const EdgeInsets.only(top: 10),
               child: ListView.builder(
-                itemCount: snapshot.data!.data.length,
+                itemCount: itemCount,
+                
+                
                 itemBuilder: (context, index) {
                   DocumentModel document = snapshot.data!.data[index];
 

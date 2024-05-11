@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:google_docs_clone_flutter/colors.dart';
 import 'package:google_docs_clone_flutter/widgets/loader.dart';
 import 'package:google_docs_clone_flutter/models/doc_model.dart';
@@ -25,8 +27,10 @@ class DocumentScreen extends ConsumerStatefulWidget {
 }
 
 class _DocumentScreenState extends ConsumerState<DocumentScreen> {
-  TextEditingController titleController = TextEditingController(text: 'Untitled Document');
-  quill.QuillController? _controller;
+  TextEditingController titleController =
+      TextEditingController(text: 'Untitled Document');
+  // quill.QuillController? _controller;
+  QuillController? _controller = QuillController.basic();
   ErrorModel? errorModel;
   SocketRepository socketRepository = SocketRepository();
 
@@ -38,9 +42,9 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
 
     socketRepository.changeListener((data) {
       _controller?.compose(
-        quill.Delta.fromJson(data['delta']),
+        Delta.fromJson(data['delta']),
         _controller?.selection ?? const TextSelection.collapsed(offset: 0),
-        quill.ChangeSource.REMOTE,
+        ChangeSource.remote,
       );
     });
 
@@ -58,28 +62,28 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
           widget.id,
         );
 
-    if (errorModel!.data != null) {
+    if (errorModel?.data != null) {
       titleController.text = (errorModel!.data as DocumentModel).title;
       _controller = quill.QuillController(
         document: errorModel!.data.content.isEmpty
             ? quill.Document()
             : quill.Document.fromDelta(
-                quill.Delta.fromJson(errorModel!.data.content),
+                Delta.fromJson(errorModel!.data.content),
               ),
         selection: const TextSelection.collapsed(offset: 0),
       );
       setState(() {});
     }
 
-    _controller!.document.changes.listen((event) {
-      if (event.item3 == quill.ChangeSource.LOCAL) {
-        Map<String, dynamic> map = {
-          'delta': event.item2,
-          'room': widget.id,
-        };
-        socketRepository.typing(map);
-      }
-    });
+    // _controller!.document.changes.listen((event) {
+    //   if (event.item3 == quill.ChangeSource.local) {
+    //     Map<String, dynamic> map = {
+    //       'delta': event.item2,
+    //       'room': widget.id,
+    //     };
+    //     socketRepository.typing(map);
+    //   }
+    // });
   }
 
   @override
@@ -110,7 +114,9 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
             padding: const EdgeInsets.all(10.0),
             child: ElevatedButton.icon(
               onPressed: () {
-                Clipboard.setData(ClipboardData(text: 'http://localhost:3000/#/document/${widget.id}')).then(
+                Clipboard.setData(ClipboardData(
+                        text: 'http://localhost:3000/#/document/${widget.id}'))
+                    .then(
                   (value) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -182,7 +188,9 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
         child: Column(
           children: [
             const SizedBox(height: 10),
-            quill.QuillToolbar.basic(controller: _controller!),
+            quill.QuillToolbar.simple(
+              configurations: QuillSimpleToolbarConfigurations(controller: _controller!),
+            ),
             const SizedBox(height: 10),
             Expanded(
               child: SizedBox(
@@ -193,8 +201,9 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: quill.QuillEditor.basic(
-                      controller: _controller!,
-                      readOnly: false,
+                      configurations: QuillEditorConfigurations(
+                        controller: _controller!, 
+                        checkBoxReadOnly: false),
                     ),
                   ),
                 ),
