@@ -30,7 +30,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
   TextEditingController titleController =
       TextEditingController(text: 'Untitled Document');
   // quill.QuillController? _controller;
-  QuillController? _controller = QuillController.basic();
+  quill.QuillController? _controller = QuillController.basic();
   ErrorModel? errorModel;
   SocketRepository socketRepository = SocketRepository();
 
@@ -189,7 +189,8 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
           children: [
             const SizedBox(height: 10),
             quill.QuillToolbar.simple(
-              configurations: QuillSimpleToolbarConfigurations(controller: _controller!),
+              configurations:
+                  QuillSimpleToolbarConfigurations(controller: _controller!),
             ),
             const SizedBox(height: 10),
             Expanded(
@@ -202,8 +203,7 @@ class _DocumentScreenState extends ConsumerState<DocumentScreen> {
                     padding: const EdgeInsets.all(30.0),
                     child: quill.QuillEditor.basic(
                       configurations: QuillEditorConfigurations(
-                        controller: _controller!, 
-                        checkBoxReadOnly: false),
+                          controller: _controller!, checkBoxReadOnly: false),
                     ),
                   ),
                 ),
