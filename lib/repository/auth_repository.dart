@@ -22,6 +22,7 @@ class AuthRepository {
   final GoogleSignIn _googleSignIn;
   final Client _client;
   final LocalStorageRepository _localStorageRepository;
+
   AuthRepository({
     required GoogleSignIn googleSignIn,
     required Client client,
@@ -46,9 +47,11 @@ class AuthRepository {
           token: '',
         );
 
-        var res = await _client.post(Uri.parse('$host/api/signup'), body: userAcc.toJson(), headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        });
+        var res = await _client.post(Uri.parse('$host/api/signup'),
+            body: userAcc.toJson(),
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+            });
 
         switch (res.statusCode) {
           case 200:

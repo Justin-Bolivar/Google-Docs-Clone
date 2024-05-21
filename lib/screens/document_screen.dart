@@ -29,7 +29,6 @@ class DocumentScreen extends ConsumerStatefulWidget {
 class _DocumentScreenState extends ConsumerState<DocumentScreen> {
   TextEditingController titleController =
       TextEditingController(text: 'Untitled Document');
-  // quill.QuillController? _controller;
   quill.QuillController? _controller = QuillController.basic();
   ErrorModel? errorModel;
   SocketRepository socketRepository = SocketRepository();
